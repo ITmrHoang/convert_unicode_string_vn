@@ -102,20 +102,21 @@
                 let text = str;
                 text = text.replaceAll(regex_percent, "\\")
                 function loadcharmap(_text) {
-                    console.log('in',_text)
                     for (str_key in charcode) {
-                        console.log(str_key, charcode[str_key])
                         _text = _text.replaceAll(str_key, charcode[str_key])
                     } 
                     return _text
                 }
                 function unicodeToChar(_text) {
-                    return _text.replace(/\\u[\dA-F]{4}/gi,
+                    return _text.replace(regex,
                         function (match) {
-                            return String.fromCharCode(match, 16);
+                            console.log(match,  String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16)))
+                            return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
                         });
                 }
                 text = loadcharmap(text)
+                // text = JSON.parse('"' + str.replace(/\"/g, '\\"') + '"')
+                text= unicodeToChar(text)
                 return text
             }
             document.querySelector("button").addEventListener("click", function () {
