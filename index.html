@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dịch</title>
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const charcode = {
+                "\\u00e1\\u00bb\\u00b9": "ỹ",
+                "\\u00e1\\u00bb\\u00b7": "ỷ",
+                "\\u00e1\\u00bb\\u00b3": "ỳ",
+                "\\u00e1\\u00bb\\u00b1": "ự",
+                "\\u00e1\\u00bb\\u00b1": "ự",
+                "\\u00e1\\u00bb\\u00af": "ữ",
+                "\\u00e1\\u00bb\\u00ad": "ử",
+                "\\u00e1\\u00bb\\u00ab": "ừ",
+                "\\u00e1\\u00bb\\u00a9": "ứ",
+                "\\u00e1\\u00bb\\u00a7": "ủ",
+                "\\u00e1\\u00bb\\u00a5": "ụ",
+                "\\u00e1\\u00bb\\u00a3": "ợ",
+                "\\u00e1\\u00bb\\u00a1": "ỡ",
+                "\\u00e1\\u00bb\\u009f": "ở",
+                "\\u00e1\\u00bb\\u009d": "ờ",
+                "\\u00e1\\u00bb\\u009b": "ớ",
+                "\\u00e1\\u00bb\\u0099": "ộ",
+                "\\u00e1\\u00bb\\u0097": "ỗ",
+                "\\u00e1\\u00bb\\u0093": "ồ",
+                "\\u00e1\\u00bb\\u0091": "ố",
+                "\\u00e1\\u00bb\\u008d": "ọ",
+                "\\u00e1\\u00bb\\u008b": "ị",
+                "\\u00e1\\u00bb\\u0089":"ỉ",
+                "\\u00e1\\u00bb\\u0087": "ệ",
+                "\\u00e1\\u00bb\\u0085": "ễ",
+                "\\u00e1\\u00bb\\u0083": "ể",
+                "\\u00e1\\u00bb\\u0081": "ề",
+                "\\u00e1\\u00ba\\u00bf": "ế",
+                "\\u00e1\\u00ba\\u00b9": "ẹ",
+                "\\u00e1\\u00ba\\u00b7": "ặ",
+                "\\u00e1\\u00ba\\u00af": "ắ",
+                "\\u00e1\\u00ba\\u00ad": "ậ",
+                "\\u00e1\\u00ba\\u00a9": "ẩ",
+                "\\u00e1\\u00ba\\u00a7": "ầ",
+                "\\u00e1\\u00ba\\u00a5": "ấ",
+                "\\u00e1\\u00ba\\u00a3": "ả",
+                "\\u00e1\\u00ba\\u00a1": "ạ",
+                "\\u00c6\\u00b0": "ư",
+                "\\u00c6\\u00a1": "ơ",
+                "\\u00c5\\u00a9": "ũ",
+                "\\u00c4\\u00a9": "ĩ",
+                "\\u00c4\\u0091": "đ",
+                "\\u00c4\\u0090": "Đ",
+                "\\u00c4\\u0083": "ă",
+                "\\u00c3\\u00bd": "ý",
+                "\\u00c3\\u00ba": "ú",
+                "\\u00c3\\u00b9": "ù",
+                "\\u00c3\\u00b5": "õ",
+                "\\u00c3\\u00b4": "ô",
+                "\\u00c3\\u00b3": "ó",
+                "\\u00c3\\u00b2": "ò",
+                "\\u00c3\\u00ad": "í",
+                "\\u00c3\\u00ac": "ì",
+                "\\u00c3\\u00aa": "ê",
+                "\\u00c3\\u00a9": "é",
+                "\\u00c3\\u00a8": "è",
+                "\\u00c3\\u00a3": "ã",
+                "\\u00c3\\u00a2": "â",
+                "\\u00c3\\u00a1": "á",
+                "\\u00c3\\u00a0": "à",
+                "\\u00c3\\u009d": "Ý",
+                "\\u00c3\\u0089": "É",
+                "\\u00c3\\u0082": "Â",
+                "\\u00c3\\u0081": "Á",
+                "\\u00c5\\u00a1": "š",
+                "\\u00c5\\u0082": "ł",
+                "\\u00c4\\u00b1": "ı",
+                "\\u00c4\\u0097": "ė",
+                "\\u00c4\\u008d": "č",
+                "\\u00c4\\u008c": "Č",
+                "\\u00c3\\u00bc": "ü",
+                "\\u00c3\\u00b8": "ø",
+                "\\u00c3\\u00b6": "ö",
+                "\\u00c3\\u00b1": "ñ",
+                "\\u00c3\\u00af": "ï",
+                "\\u00c3\\u00ab": "ë",
+                "\\u00c3\\u00a7": "ç",
+                "\\u00c3\\u00a6": "æ",
+                "\\u00c3\\u00a5": "å",
+                "\\u00c3\\u00a4": "ä",
+                "\\u00c3\\u0098": "Ø",
+                "\\u00c3\\u008b": "Ë",
+            }
+            const str_input = document.querySelector("#source-text")
+            const result_input = document.querySelector("#translated-text")
+            var regex = /\\u([\d\w]{4})/gi;
+            var regex_percent = /%(?=(u[a-zA-Z0-9]{4}))/gi;
+
+            function convertstring(str = '') {
+                let text = str;
+                text = text.replaceAll(regex_percent, "\\")
+                function loadcharmap(_text) {
+                    console.log('in',_text)
+                    for (str_key in charcode) {
+                        console.log(str_key, charcode[str_key])
+                        _text = _text.replaceAll(str_key, charcode[str_key])
+                    } 
+                    return _text
+                }
+                function unicodeToChar(_text) {
+                    return _text.replace(/\\u[\dA-F]{4}/gi,
+                        function (match) {
+                            return String.fromCharCode(match, 16);
+                        });
+                }
+                text = loadcharmap(text)
+                return text
+            }
+            document.querySelector("button").addEventListener("click", function () {
+                let str = str_input.value;
+                let result =  convertstring(str);
+
+                result_input.innerHTML  = result;
+            });
+            // Code to execute when the document is ready
+            console.log("Document is ready!");
+
+            // You can manipulate the DOM, add event listeners, etc. here
+        });
+    </script>
+    <style>
+        #translator {
+  width: 300px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#translated-text {
+  margin-top: 20px;
+}
+    </style>
+</head>
+
+<body>
+
+    <div id="translator">
+        <textarea id="source-text" placeholder="Enter text for convert..."></textarea>
+        <button id="translate-button">Convert</button>
+        <div id="translated-text"></div>
+      </div>
+
+</body>
+
+</html>
